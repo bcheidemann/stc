@@ -8,6 +8,8 @@ version = "0.1.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+napi = "2"
+napi-derive = "2"
 ansi_term = "0.12.1"
 backtrace = "0.3.60"
 derivative = "2.2.0"

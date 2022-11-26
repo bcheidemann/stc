@@ -36,6 +36,41 @@ type Contexts = Vec<String>;
 #[cfg(not(debug_assertions))]
 type Contexts = ();
 
+#[napi_derive::napi(object)]
+pub struct JsSpan {
+    pub start: u32,
+    pub end: u32,
+}
+
+impl From<Span> for JsSpan {
+    fn from(span: Span) -> Self {
+        Self {
+            start: span.lo.0,
+            end: span.hi.0,
+        }
+    }
+}
+
+#[napi_derive::napi(object)]
+pub struct JsError {
+    pub code: u16,
+    pub name: String,
+    pub span: JsSpan,
+}
+
+impl Into<JsError> for &Error {
+    fn into(self) -> JsError {
+        JsError {
+            code: self
+                .code()
+                .try_into()
+                .expect(format!("Failed to convert error code ({}) to u16", self.code()).as_str()),
+            name: format!("TS{}", ErrorKind::normalize_error_code(self.code())),
+            span: self.span().into(),
+        }
+    }
+}
+
 /// [ErrorKind] with debug contexts attached.
 #[derive(Clone, PartialEq, Spanned)]
 pub struct Error {

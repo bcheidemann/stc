@@ -1,7 +1,8 @@
 {
   "name": "stc-workspace",
   "workspaces": [
-    "crates/stc_ts_file_analyzer"
+    "crates/stc_ts_file_analyzer",
+    "bindings/binding_core_node"
   ],
   "private": true,
   "version": "0.0.0",
